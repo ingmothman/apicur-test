@@ -1,0 +1,819 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "patient-model-mvp",
+        "version": "1.0",
+        "description": ""
+    },
+    "servers": [
+        {
+            "url": "patient-model.com/api",
+            "description": "v1"
+        }
+    ],
+    "paths": {
+        "/initialData": {
+            "get": {
+                "tags": [
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "CellTypes",
+                                        "Filters",
+                                        "MenuItems"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "CellTypes": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "Filters": {
+                                            "required": [
+                                                "BusinessUnits",
+                                                "Countries",
+                                                "Templates",
+                                                "Versions"
+                                            ],
+                                            "type": "object",
+                                            "properties": {
+                                                "BusinessUnits": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/TreeNode"
+                                                    }
+                                                },
+                                                "Countries": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/TreeNode"
+                                                    }
+                                                },
+                                                "Templates": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/TreeNode"
+                                                    }
+                                                },
+                                                "Versions": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/TreeNode"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "MenuItems": {
+                                            "type": "array",
+                                            "items": {
+                                                "required": [
+                                                    "Id",
+                                                    "IsDefault",
+                                                    "Title",
+                                                    "Url"
+                                                ],
+                                                "type": "object",
+                                                "properties": {
+                                                    "Id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "IsDefault": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "Title": {
+                                                        "type": "string"
+                                                    },
+                                                    "Url": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "first-draft": {
+                                        "value": {
+                                            "MenuItems": [
+                                                {
+                                                    "Id": 101,
+                                                    "IsDefault": true,
+                                                    "Title": "Data Models",
+                                                    "Url": "/data-models/"
+                                                },
+                                                {
+                                                    "Id": 102,
+                                                    "IsDefault": true,
+                                                    "Title": "Analytics",
+                                                    "Url": "/analytics/"
+                                                }
+                                            ],
+                                            "Filters": {
+                                                "BusinessUnits": [
+                                                    {
+                                                        "Id": 10301010101,
+                                                        "Title": "PHARMA EXCL. AVEXIS",
+                                                        "SubTitle": "some value",
+                                                        "IsDefault": true,
+                                                        "Children": [
+                                                            {
+                                                                "Id": 10318010101,
+                                                                "Title": "TOTAL USA (PHARMA)",
+                                                                "SubTitle": "some value",
+                                                                "IsDefault": false
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "Countries": [
+                                                    {
+                                                        "Id": 10301010101,
+                                                        "Title": "PHARMA EXCL. AVEXIS",
+                                                        "SubTitle": "some value",
+                                                        "IsDefault": true,
+                                                        "Children": [
+                                                            {
+                                                                "Id": 10318010101,
+                                                                "Title": "TOTAL USA (PHARMA)",
+                                                                "SubTitle": "some value",
+                                                                "IsDefault": false
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "Templates": [
+                                                    {
+                                                        "Id": 10301010101,
+                                                        "Title": "PHARMA EXCL. AVEXIS",
+                                                        "SubTitle": "some value",
+                                                        "IsDefault": true,
+                                                        "Children": [
+                                                            {
+                                                                "Id": 10318010101,
+                                                                "Title": "TOTAL USA (PHARMA)",
+                                                                "SubTitle": "some value",
+                                                                "IsDefault": false
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "Versions": [
+                                                    {
+                                                        "Id": 10301010101,
+                                                        "Title": "PHARMA EXCL. AVEXIS",
+                                                        "SubTitle": "some value",
+                                                        "IsDefault": true,
+                                                        "Children": [
+                                                            {
+                                                                "Id": 10318010101,
+                                                                "Title": "TOTAL USA (PHARMA)",
+                                                                "SubTitle": "some value",
+                                                                "IsDefault": false
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            "CellTypes": [
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "authorization": [
+                        ]
+                    }
+                ],
+                "operationId": "get-getInitialData",
+                "summary": "Fetch Initial Data",
+                "description": "Is loaded once after the login. contains the basic information to display the app."
+            }
+        },
+        "/dataModel": {
+            "get": {
+                "tags": [
+                ],
+                "parameters": [
+                    {
+                        "name": "businessUnitId",
+                        "description": "Business Units ID",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "name": "countryId",
+                        "description": "Country ID",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "name": "templateId",
+                        "description": "Patient Model ID",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "name": "versionId",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "Rows",
+                                        "ColumnHeaders"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "Rows": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Row"
+                                            }
+                                        },
+                                        "ColumnHeaders": {
+                                            "type": "array",
+                                            "items": {
+                                                "required": [
+                                                    "Cells"
+                                                ],
+                                                "type": "object",
+                                                "properties": {
+                                                    "Cells": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "required": [
+                                                                "Id",
+                                                                "Title"
+                                                            ],
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "Id": {
+                                                                    "type": "integer"
+                                                                },
+                                                                "Title": {
+                                                                    "type": "string"
+                                                                },
+                                                                "SubCells": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "required": [
+                                                                            "Id",
+                                                                            "Title"
+                                                                        ],
+                                                                        "type": "object",
+                                                                        "properties": {
+                                                                            "Id": {
+                                                                                "type": "integer"
+                                                                            },
+                                                                            "Title": {
+                                                                                "type": "string"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "first-draft": {
+                                        "value": {
+                                            "ColumnHeaders": [
+                                                {
+                                                    "Cells": [
+                                                        {
+                                                            "Id": 1,
+                                                            "Title": "Boevo US"
+                                                        },
+                                                        {
+                                                            "Id": 2,
+                                                            "Title": "Boevo US"
+                                                        },
+                                                        {
+                                                            "Id": 3,
+                                                            "Title": "2021",
+                                                            "SubCells": [
+                                                                {
+                                                                    "Id": 4,
+                                                                    "Title": "Jen"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "Rows": [
+                                                {
+                                                    "Id": 1,
+                                                    "BackgroundColor": "#fff",
+                                                    "IsSectionHeader": true,
+                                                    "Cells": [
+                                                        {
+                                                            "Id": 1,
+                                                            "Styles": {
+                                                                "IsBold": true,
+                                                                "IsItalic": false
+                                                            },
+                                                            "Title": "Title",
+                                                            "Info": "lorem ipsum...."
+                                                        },
+                                                        {
+                                                            "Id": 2,
+                                                            "Styles": {
+                                                                "IsBold": true,
+                                                                "IsItalic": false
+                                                            },
+                                                            "Value": {
+                                                                "Id": 6,
+                                                                "Value": 10000,
+                                                                "Unit": "Number",
+                                                                "Digits": 0,
+                                                                "Sign": "",
+                                                                "Na": false
+                                                            }
+                                                        },
+                                                        {
+                                                            "Id": 3,
+                                                            "Styles": {
+                                                                "IsBold": true,
+                                                                "IsItalic": false
+                                                            },
+                                                            "Value": {
+                                                                "Id": 6,
+                                                                "Value": 10000,
+                                                                "Unit": "Number",
+                                                                "Digits": 0,
+                                                                "Sign": "",
+                                                                "Na": false
+                                                            },
+                                                            "CellTypeId": "number",
+                                                            "SubCells": [
+                                                                {
+                                                                    "Id": 4,
+                                                                    "Styles": {
+                                                                        "IsBold": true,
+                                                                        "IsItalic": false
+                                                                    },
+                                                                    "Value": {
+                                                                        "Id": 6,
+                                                                        "Value": 10000,
+                                                                        "Unit": "Number",
+                                                                        "Digits": 0,
+                                                                        "Sign": "",
+                                                                        "Na": false
+                                                                    },
+                                                                    "CellTypeId": "number"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "Children": [
+                                                        {
+                                                            "Id": 1,
+                                                            "backgroundColor": "#fff",
+                                                            "isSectionHeader": true,
+                                                            "Cells": [
+                                                                {
+                                                                    "Id": 1,
+                                                                    "Styles": {
+                                                                        "IsBold": true,
+                                                                        "IsItalic": false
+                                                                    },
+                                                                    "Title": "Title",
+                                                                    "Info": "lorem ipsum...."
+                                                                },
+                                                                {
+                                                                    "Id": 2,
+                                                                    "Styles": {
+                                                                        "IsBold": true,
+                                                                        "IsItalic": false
+                                                                    },
+                                                                    "Value": {
+                                                                        "Id": 6,
+                                                                        "Value": 10000,
+                                                                        "Unit": "Number",
+                                                                        "Digits": 0,
+                                                                        "Sign": "",
+                                                                        "Na": false
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "Id": 3,
+                                                                    "Styles": {
+                                                                        "IsBold": true,
+                                                                        "IsItalic": false
+                                                                    },
+                                                                    "Value": {
+                                                                        "Id": 6,
+                                                                        "Value": 10000,
+                                                                        "Unit": "Number",
+                                                                        "Digits": 0,
+                                                                        "Sign": "",
+                                                                        "Na": false
+                                                                    },
+                                                                    "CellTypeId": "number",
+                                                                    "SubCells": [
+                                                                        {
+                                                                            "Id": 4,
+                                                                            "Styles": {
+                                                                                "IsBold": true,
+                                                                                "IsItalic": false
+                                                                            },
+                                                                            "Value": {
+                                                                                "Id": 6,
+                                                                                "Value": 10000,
+                                                                                "Unit": "Number",
+                                                                                "Digits": 0,
+                                                                                "Sign": "",
+                                                                                "Na": false
+                                                                            },
+                                                                            "CellTypeId": "number"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "Children": [
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "authorization": [
+                        ]
+                    }
+                ],
+                "operationId": "get-getDataModel",
+                "summary": "Fetch Data Model",
+                "description": "Loads individual patient models"
+            },
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "Message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Save Success"
+                    },
+                    "422": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "field-id-2": {
+                                            "type": "object",
+                                            "properties": {
+                                                "Errors": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "Warnings": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "field-id-1": {
+                                            "type": "object",
+                                            "properties": {
+                                                "Errors": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "Warnings": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "first-draft": {
+                                        "value": {
+                                            "field-id-1": {
+                                                "Errors": [
+                                                    "Message 1",
+                                                    "Message 2",
+                                                    "Message 3"
+                                                ],
+                                                "Warnings": [
+                                                    "Message 1",
+                                                    "Message 2",
+                                                    "Message 3"
+                                                ]
+                                            },
+                                            "field-id-2": {
+                                                "Errors": [
+                                                    "Message 1",
+                                                    "Message 2",
+                                                    "Message 3"
+                                                ],
+                                                "Warnings": [
+                                                    "Message 1",
+                                                    "Message 2",
+                                                    "Message 3"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Unprocessable Entity ( Validation Error ) "
+                    }
+                },
+                "security": [
+                    {
+                        "authorization": [
+                        ]
+                    }
+                ],
+                "operationId": "post-dataModel",
+                "summary": "Save Data Model",
+                "description": "Saves the data back to the API"
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ValueObject": {
+                "description": "Common value response",
+                "required": [
+                    "Sign",
+                    "Digits",
+                    "Unit",
+                    "NA",
+                    "Value",
+                    "Id"
+                ],
+                "type": "object",
+                "properties": {
+                    "Sign": {
+                        "type": "string"
+                    },
+                    "Digits": {
+                        "type": "integer"
+                    },
+                    "Unit": {
+                        "enum": [
+                            "Number",
+                            "Days",
+                            "Dollars",
+                            "Percent",
+                            "Signed Percent",
+                            "Signed Number"
+                        ],
+                        "type": "string"
+                    },
+                    "NA": {
+                        "type": "boolean"
+                    },
+                    "Value": {
+                        "type": "number"
+                    },
+                    "Id": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "TreeNode": {
+                "description": "Common response for filters ",
+                "required": [
+                    "Children",
+                    "Title",
+                    "Id"
+                ],
+                "type": "object",
+                "properties": {
+                    "Id": {
+                        "type": "integer"
+                    },
+                    "Title": {
+                        "type": "string"
+                    },
+                    "SubTitle": {
+                        "type": "string"
+                    },
+                    "IsDefault": {
+                        "type": "boolean"
+                    },
+                    "Children": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TreeNode"
+                        }
+                    }
+                }
+            },
+            "CellStyle": {
+                "title": "CellStyle",
+                "description": "",
+                "required": [
+                    "IsItalic",
+                    "IsBold"
+                ],
+                "type": "object",
+                "properties": {
+                    "IsItalic": {
+                        "type": "boolean"
+                    },
+                    "IsBold": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "CellWithValue": {
+                "required": [
+                    "CellTypeId",
+                    "Value",
+                    "Id"
+                ],
+                "type": "object",
+                "properties": {
+                    "SubCells": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CellWithValue"
+                        }
+                    },
+                    "CellTypeId": {
+                        "description": "It is used to control the appearnace of the input feild",
+                        "enum": [
+                            "number",
+                            "percent",
+                            "label"
+                        ],
+                        "type": "string"
+                    },
+                    "Value": {
+                        "$ref": "#/components/schemas/ValueObject"
+                    },
+                    "Styles": {
+                        "$ref": "#/components/schemas/CellStyle"
+                    },
+                    "Id": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "CellWithTitle": {
+                "type": "object",
+                "properties": {
+                    "Info": {
+                        "type": "string"
+                    },
+                    "Title": {
+                        "type": "string"
+                    },
+                    "Styles": {
+                        "type": "object",
+                        "properties": {
+                            "IsBold": {
+                                "type": "boolean"
+                            },
+                            "IsItalic": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "Id": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "Row": {
+                "title": "",
+                "description": "",
+                "required": [
+                    "Cells",
+                    "IsSectionHeader",
+                    "Id"
+                ],
+                "type": "object",
+                "properties": {
+                    "Children": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Row"
+                        }
+                    },
+                    "Cells": {
+                        "type": "array",
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/components/schemas/CellWithValue"
+                                },
+                                {
+                                    "$ref": "#/components/schemas/CellWithTitle"
+                                }
+                            ]
+                        }
+                    },
+                    "IsSectionHeader": {
+                        "type": "boolean"
+                    },
+                    "BackgroundColor": {
+                        "format": "hostname",
+                        "description": "Custom Background color in HEX",
+                        "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+                        "type": "string",
+                        "example": "#fefefe"
+                    },
+                    "Id": {
+                        "type": "integer"
+                    }
+                },
+                "x-examples": {
+                    "example-1": {
+
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "authorization": {
+                "scheme": "Bearer",
+                "type": "http"
+            }
+        }
+    }
+}
